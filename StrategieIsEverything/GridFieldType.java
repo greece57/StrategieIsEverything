@@ -1,0 +1,3 @@
+enum GridFieldType {
+  GRAS, MOUNTAIN  
+}
