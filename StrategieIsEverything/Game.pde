@@ -1,3 +1,10 @@
+interface GameObject {
+  UUID getUUID();
+  PVector getRealPos();
+  Game getGameInstance();
+  
+}
+
 class Game {
   Tribe[] tribes;
   GameField map;
@@ -17,6 +24,25 @@ class Game {
     }
   }
   
+  // ---------------------------------
+  void update() {
+    if (isOver()) { return; }
+    
+    for (Tribe tribe : tribes) {
+      tribe.update(); 
+    }
+  }
+  
+  void show() {
+    map.show();
+    for (Tribe tribe : tribes) {
+      tribe.show(); 
+    }
+  }
+  
+  // ------------- GETTER ------------------
+  
+  
   boolean isOver() {
     int aliveCounter = 0;
     for (Tribe tribe : tribes) {
@@ -29,17 +55,13 @@ class Game {
     }
   }
   
-  // ---------------------------------
-  void update() {
-    for (Tribe tribe : tribes) {
-      tribe.update(); 
+  GameObject[] getGameObjects() {
+    ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
+    for (TribeInterface tribe : tribes) {
+      for (UnitInterface unit : tribe.getUnits()) {
+        gameObjects.add(unit);
+      }
     }
-  }
-  
-  void show() {
-    map.show();
-    for (Tribe tribe : tribes) {
-      tribe.show(); 
-    }
+    return gameObjects.toArray(new GameObject[gameObjects.size()]);
   }
 }
